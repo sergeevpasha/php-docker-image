@@ -48,10 +48,13 @@ RUN PHP_OPENSSL=yes docker-php-ext-configure imap --with-kerberos --with-imap-ss
     && docker-php-ext-install pdo_pgsql pdo_mysql mysqli zip exif pcntl gd bcmath soap gettext imap intl \
     && docker-php-ext-configure intl \
     && docker-php-ext-configure gd \
+    && docker-php-ext-enable redis \
     && docker-php-ext-enable xdebug \
-    && docker-php-ext-enable redis
+    && echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.client_host = host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-EXPOSE 9000
+
+EXPOSE 9000 9003
 
 WORKDIR /var/www
 
